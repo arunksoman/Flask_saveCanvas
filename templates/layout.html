@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='myCanvas.js') }}"></script>
+    <script>
+    $(document).ready(function () {
+    $('#btnSubmit').click(function(){
+        var value = canvas.toDataURL();
+        console.log(value);
+        alert(value);
+        value = value.replace('value:image/png;base64,', '')
+        //alert(value)
+        $.ajax({
+            type: 'POST',
+            url: 'saveImage',
+            data: JSON.stringify({"text": value}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success:function (data) {
+                alert(JSON.stringify(data));
+                alert('Image saved successfully');
+            }
+        });
+     });
+    });
+</script>
+</head>
+    {% block body %}{% endblock %}
+</html>
